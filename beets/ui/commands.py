@@ -262,10 +262,13 @@ def show_change(cur_artist, cur_album, match):
         artist_l, artist_r = ui.colordiff(artist_l, artist_r)
         album_l, album_r = ui.colordiff(album_l, album_r)
 
-        print_(u"Correcting tags from:")
+        print("\b\033[1m")
         show_album(artist_l, album_l)
+        print("\b\033[m")
         print_(u"To:")
+        print("\b\033[38;5;106;1m")
         show_album(artist_r, album_r)
+        print("\b\033[m")
     else:
         print_(u"Tagging:\n    {0.artist} - {0.album}".format(match.info))
 
@@ -447,7 +450,7 @@ def summarize_items(items, singleton):
     """
     summary_parts = []
     if not singleton:
-        summary_parts.append(u"{0} items".format(len(items)))
+        summary_parts.append(u"\033[38;5;208;1m{0}\033[m items".format(len(items)))
 
     format_counts = {}
     for item in items:
@@ -545,10 +548,10 @@ def choose_candidate(candidates, singleton, rec, cur_artist=None,
         if singleton:
             print_(u"No matching recordings found.")
         else:
-            print_(u"No matching release found for {0} tracks."
+            print_(u"No matching release found for \033[38;5;208m{0}\033[m tracks."
                    .format(itemcount))
-            print_(u'For help, see: '
-                   u'https://beets.readthedocs.org/en/latest/faq.html#nomatch')
+#            print_(u'For help, see: '
+#                   u'https://beets.readthedocs.org/en/latest/faq.html#nomatch')
         sel = ui.input_options(choice_opts)
         if sel in choice_actions:
             return choice_actions[sel]
@@ -695,8 +698,8 @@ class TerminalImportSession(importer.ImportSession):
         """
         # Show what we're tagging.
         print_()
-        print_(displayable_path(task.paths, u'\n') +
-               u' ({0} items)'.format(len(task.items)))
+        print_("\033[38;5;30;48;5;123;7m" + displayable_path(task.paths, u'\n') +
+               u'\033[m (\033[38;5;76;1m{0}\033[m items)'.format(len(task.items)))
 
         # Let plugins display info or prompt the user before we go through the
         # process of selecting candidate.
